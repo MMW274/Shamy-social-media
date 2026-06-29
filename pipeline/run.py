@@ -100,9 +100,16 @@ def cmd_propose(args: argparse.Namespace) -> int:
         sound_url=None,
     )
 
-    for chat_id in (settings.telegram_chat_id_sneha, settings.telegram_chat_id_mehul):
-        send_approval_sync(settings.telegram_bot_token, chat_id, card)
-    log.info("Approval card sent.")
+    if settings.dry_run:
+        log.info("DRY RUN — skipping Telegram send")
+        log.info(
+            "Card payload: slot=%s pillar=%s variants=%s hashtags=%s",
+            card.slot_id, card.pillar, card.variants, card.hashtags,
+        )
+    else:
+        for chat_id in (settings.telegram_chat_id_sneha, settings.telegram_chat_id_mehul):
+            send_approval_sync(settings.telegram_bot_token, chat_id, card)
+        log.info("Approval card sent.")
 
     record = PostRecord(
         slot_id=slot.id,
