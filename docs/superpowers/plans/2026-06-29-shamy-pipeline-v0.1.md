@@ -1096,13 +1096,14 @@ git commit -m "feat(drive): Google Drive client with auth, listing, download, mo
 """Privacy check: does this image/video frame contain a human?
 
 Layer 2 of two-layer privacy defense (layer 1 = Drive folder boundary).
+Uses the new google-genai SDK (the legacy google-generativeai is EOL).
 """
 from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
 
-import google.generativeai as genai
+from google import genai
 from PIL import Image
 
 
@@ -1115,6 +1116,11 @@ PROMPT = (
     "VERDICT=<YES|NO|UNSURE> CONFIDENCE=<0.0-1.0> REASON=<short reason>"
 )
 
+MODEL_NAME = "gemini-2.5-flash"
+
+# Module-level client, initialised by `configure()`.
+_client: genai.Client | None = None
+
 
 @dataclass(frozen=True)
 class PrivacyVerdict:
@@ -1125,13 +1131,15 @@ class PrivacyVerdict:
 
 
 def configure(api_key: str) -> None:
-    genai.configure(api_key=api_key)
+    global _client
+    _client = genai.Client(api_key=api_key)
 
 
 def check_image(path: Path | str) -> PrivacyVerdict:
+    if _client is None:
+        raise RuntimeError("privacy.configure(api_key) must be called first")
     img = Image.open(path)
-    model = genai.GenerativeModel("gemini-2.5-flash")
-    resp = model.generate_content([PROMPT, img])
+    resp = _client.models.generate_content(model=MODEL_NAME, contents=[PROMPT, img])
     text = (resp.text or "").strip()
     return _parse_verdict(text)
 
@@ -1286,7 +1294,7 @@ Expected: FAIL `ModuleNotFoundError`.
 
 `pipeline/caption.py`:
 ```python
-"""Generate 3 caption variants + hashtag set using Gemini Vision."""
+"""Generate 3 caption variants + hashtag set using Gemini Vision (google-genai SDK)."""
 from __future__ import annotations
 
 import json
@@ -1294,10 +1302,13 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
-import google.generativeai as genai
+from google import genai
 from PIL import Image
 
 from pipeline.brand import BrandVoice
+
+MODEL_NAME = "gemini-2.5-flash"
+_client: genai.Client | None = None
 
 
 @dataclass(frozen=True)
@@ -1352,14 +1363,16 @@ Respond as STRICT JSON only — no preamble, no markdown fences:
 
 
 def configure(api_key: str) -> None:
-    genai.configure(api_key=api_key)
+    global _client
+    _client = genai.Client(api_key=api_key)
 
 
 def generate(image_path: Path | str, bv: BrandVoice, pillar: str, cat: str) -> CaptionResult:
+    if _client is None:
+        raise RuntimeError("caption.configure(api_key) must be called first")
     prompt = build_prompt(bv, pillar, cat)
     img = Image.open(image_path)
-    model = genai.GenerativeModel("gemini-2.5-flash")
-    resp = model.generate_content([prompt, img])
+    resp = _client.models.generate_content(model=MODEL_NAME, contents=[prompt, img])
     return _parse(resp.text or "")
 
 
