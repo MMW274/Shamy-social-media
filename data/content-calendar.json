@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "timezone": "Europe/Berlin",
+  "default_pillars": [
+    "sibling_chaos",
+    "snack_reactions",
+    "cozy",
+    "play_zoomies",
+    "judging_humans",
+    "rescue_glow_up"
+  ],
+  "slots": [
+    { "id": "2026-07-06-tt", "date": "2026-07-06", "platform": "tiktok",    "pillar": "sibling_chaos",  "status": "planned" },
+    { "id": "2026-07-07-ig", "date": "2026-07-07", "platform": "instagram", "pillar": "snack_reactions","status": "planned" },
+    { "id": "2026-07-07-x",  "date": "2026-07-07", "platform": "x",         "pillar": "snack_reactions","status": "planned" },
+    { "id": "2026-07-08-tt", "date": "2026-07-08", "platform": "tiktok",    "pillar": "cozy",           "status": "planned" },
+    { "id": "2026-07-09-ig", "date": "2026-07-09", "platform": "instagram", "pillar": "play_zoomies",   "status": "planned" },
+    { "id": "2026-07-09-x",  "date": "2026-07-09", "platform": "x",         "pillar": "play_zoomies",   "status": "planned" },
+    { "id": "2026-07-10-tt", "date": "2026-07-10", "platform": "tiktok",    "pillar": "judging_humans", "status": "planned" },
+    { "id": "2026-07-11-ig", "date": "2026-07-11", "platform": "instagram", "pillar": "rescue_glow_up", "status": "planned" },
+    { "id": "2026-07-11-x",  "date": "2026-07-11", "platform": "x",         "pillar": "rescue_glow_up", "status": "planned" },
+    { "id": "2026-07-12-ig", "date": "2026-07-12", "platform": "instagram", "pillar": "sibling_chaos",  "status": "planned" },
+    { "id": "2026-07-12-x",  "date": "2026-07-12", "platform": "x",         "pillar": "sibling_chaos",  "status": "planned" },
+
+    { "id": "2026-07-13-tt", "date": "2026-07-13", "platform": "tiktok",    "pillar": "snack_reactions","status": "planned" },
+    { "id": "2026-07-14-ig", "date": "2026-07-14", "platform": "instagram", "pillar": "cozy",           "status": "planned" },
+    { "id": "2026-07-14-x",  "date": "2026-07-14", "platform": "x",         "pillar": "cozy",           "status": "planned" },
+    { "id": "2026-07-15-tt", "date": "2026-07-15", "platform": "tiktok",    "pillar": "play_zoomies",   "status": "planned" },
+    { "id": "2026-07-16-ig", "date": "2026-07-16", "platform": "instagram", "pillar": "judging_humans", "status": "planned" },
+    { "id": "2026-07-16-x",  "date": "2026-07-16", "platform": "x",         "pillar": "judging_humans", "status": "planned" },
+    { "id": "2026-07-17-tt", "date": "2026-07-17", "platform": "tiktok",    "pillar": "rescue_glow_up", "status": "planned" },
+    { "id": "2026-07-18-ig", "date": "2026-07-18", "platform": "instagram", "pillar": "sibling_chaos",  "status": "planned" },
+    { "id": "2026-07-18-x",  "date": "2026-07-18", "platform": "x",         "pillar": "sibling_chaos",  "status": "planned" },
+    { "id": "2026-07-19-ig", "date": "2026-07-19", "platform": "instagram", "pillar": "snack_reactions","status": "planned" },
+    { "id": "2026-07-19-x",  "date": "2026-07-19", "platform": "x",         "pillar": "snack_reactions","status": "planned" }
+  ]
+}
