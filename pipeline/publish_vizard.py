@@ -43,6 +43,8 @@ def list_social_accounts(api_key: str) -> list[SocialAccount]:
     resp = requests.get(f"{BASE}/social-accounts", headers=_headers(api_key), timeout=60)
     resp.raise_for_status()
     data = resp.json()
+    if data.get("code") not in (None, 2000) and not data.get("publishAccounts"):
+        raise RuntimeError(f"Unexpected social-accounts response: {data}")
     accounts = []
     for item in data.get("publishAccounts", []):
         accounts.append(

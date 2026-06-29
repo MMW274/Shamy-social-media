@@ -51,6 +51,18 @@ def main() -> int:
         print("\nDry run — stopping before submit/publish.")
         return 0
 
+    if not accounts:
+        print(
+            "\nERROR: Vizard API returned no connected social accounts.\n"
+            "Fix checklist:\n"
+            "  1. GitHub secret PRODUCTION must be your Vizard API key "
+            "(Workspace Settings → API in vizard.ai)\n"
+            "  2. IG + X must be connected in the SAME Vizard workspace as that key\n"
+            "  3. Re-authorize X if status is expired in Vizard → Account → Social accounts\n"
+            "Until API works, post manually in Vizard UI (see docs/runbook.md).\n"
+        )
+        return 2
+
     print(f"\nSubmitting video to Vizard: {args.video_url}")
     project_id = submit_short_video(api_key, args.video_url, project_name="Shamy sample — neighborhood watch")
     print(f"Project id: {project_id} — waiting for render (up to ~20 min)…")
