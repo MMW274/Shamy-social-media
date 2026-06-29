@@ -74,6 +74,7 @@ Thumbs.db
 # Asset binaries that should never live in git
 *.mp4
 *.mov
+!samples/neighborhood-watch.mp4
 *.heic
 *.HEIC
 # (raw photos/videos belong in Google Drive, not git)

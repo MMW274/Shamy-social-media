@@ -1,0 +1,40 @@
+name: Post sample to X (Vizard)
+
+on:
+  workflow_dispatch:
+    inputs:
+      video_url:
+        description: "Public MP4 URL (leave blank to use repo raw file on this branch)"
+        required: false
+      caption:
+        description: "X post text (optional override)"
+        required: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests python-dotenv PyYAML
+
+      - name: Publish to X via Vizard
+        env:
+          VIZARD_API_KEY: ${{ secrets.PRODUCTION }}
+        run: |
+          BRANCH="${GITHUB_REF_NAME}"
+          DEFAULT_URL="https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/${BRANCH}/samples/neighborhood-watch.mp4"
+          VIDEO_URL="${{ inputs.video_url }}"
+          if [ -z "$VIDEO_URL" ]; then VIDEO_URL="$DEFAULT_URL"; fi
+
+          CAPTION="${{ inputs.caption }}"
+          ARGS=(--video-url "$VIDEO_URL")
+          if [ -n "$CAPTION" ]; then ARGS+=(--caption "$CAPTION"); fi
+
+          echo "Using video URL: $VIDEO_URL"
+          python scripts/post_sample_x.py "${ARGS[@]}"
