@@ -1,0 +1,33 @@
+brand:
+  name: Shamy
+  tagline: Test tagline
+cats:
+  amy:
+    aka: ["Amy"]
+    look: fluffy
+    personality: ["active"]
+    voice_traits: ["dramatic"]
+    catchphrases: ["meow"]
+  sheldon:
+    aka: ["Sheldon"]
+    look: spotted
+    personality: ["cautious"]
+    voice_traits: ["observational"]
+    catchphrases: ["reviewed"]
+voice:
+  primary: cat-POV first person
+  language: English only
+  do: ["use observational humor"]
+  do_not: ["beg for likes"]
+privacy:
+  forbidden_terms_in_captions: ["Sneha", "Anish"]
+pillars:
+  cozy:
+    description: "Sleepy"
+    example_captions: ["Off-duty."]
+    typical_hashtags: ["#CatLoaf"]
+hashtag_bank:
+  branded_always_include_one: ["#LifeWithShamy"]
+caption_generation_rules:
+  required_outputs_per_request: 3
+  hashtag_count: [5, 8]
