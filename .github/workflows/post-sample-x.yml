@@ -37,4 +37,4 @@ jobs:
           if [ -n "$CAPTION" ]; then ARGS+=(--caption "$CAPTION"); fi
 
           echo "Using video URL: $VIDEO_URL"
-          python scripts/post_sample_x.py "${ARGS[@]}"
+          PYTHONPATH=. python scripts/post_sample_x.py "${ARGS[@]}"
