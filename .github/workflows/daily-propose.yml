@@ -1,0 +1,48 @@
+name: Daily propose
+
+on:
+  schedule:
+    - cron: "0 6 * * *"   # 06:00 UTC = 08:00 CET (or 07:00 in winter)
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Override target date YYYY-MM-DD"
+        required: false
+      platform:
+        description: "Platform (instagram|x|tiktok)"
+        required: true
+        default: instagram
+
+jobs:
+  propose:
+    runs-on: ubuntu-latest
+    if: vars.PIPELINE_ENABLED == 'true'   # set this var to 'true' in repo settings to enable
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - name: Restore drive token
+        run: |
+          echo '${{ secrets.GOOGLE_TOKEN_JSON }}' > token.json
+          echo '${{ secrets.GOOGLE_CREDENTIALS_JSON }}' > credentials.json
+      - name: Propose
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID_SNEHA: ${{ secrets.TELEGRAM_CHAT_ID_SNEHA }}
+          TELEGRAM_CHAT_ID_MEHUL: ${{ secrets.TELEGRAM_CHAT_ID_MEHUL }}
+          DRIVE_ROOT_FOLDER_ID: ${{ secrets.DRIVE_ROOT_FOLDER_ID }}
+          TZ: Europe/Berlin
+        run: |
+          PLATFORM="${{ inputs.platform || 'instagram' }}"
+          DATE="${{ inputs.date || '$(date +%Y-%m-%d)' }}"
+          python -m pipeline.run propose --date "$DATE" --platform "$PLATFORM"
+      - name: Commit log changes
+        run: |
+          git config user.name "shamy-bot"
+          git config user.email "shamy-bot@users.noreply.github.com"
+          git add data/content-log.jsonl
+          git diff --cached --quiet || git commit -m "chore: record proposed post"
+          git push
