@@ -28,3 +28,8 @@
 ## Rotation policy
 - Secrets rotated every 6 months.
 - Drive token re-auth ~weekly (refresh tokens handle most).
+
+## Enabling the cron
+1. In GitHub repo settings → Actions → Variables → New repository variable: `PIPELINE_ENABLED = true`.
+2. In Secrets → add all the keys (GEMINI, TELEGRAM, DRIVE).
+3. After one week of supervised runs in `workflow_dispatch` mode, flip the var to `true` to start the cron.
